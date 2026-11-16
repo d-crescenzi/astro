@@ -2,6 +2,8 @@
 
 A fit-for-duty check for astronauts, on the watch.
 
+![Astro preview](./assets/design.png)
+
 Built for the NASA Space Apps Challenge 2026, challenge "Health Monitoring Software for Astronauts".
 
 ## The problem
