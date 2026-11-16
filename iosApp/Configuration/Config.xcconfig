@@ -1,0 +1,16 @@
+TEAM_ID=
+
+PRODUCT_NAME=Astro
+PRODUCT_BUNDLE_IDENTIFIER=com.astro.app.app-astro$(TEAM_ID)
+
+CURRENT_PROJECT_VERSION=1
+MARKETING_VERSION=1.0
+
+// Kotlin Multiplatform shared engine (static framework "Shared").
+// embedAndSignAppleFrameworkForXcode copies it here per configuration/SDK.
+FRAMEWORK_SEARCH_PATHS = $(inherited) "$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)"
+OTHER_LDFLAGS = $(inherited) -framework Shared
+
+// The shared framework targets Apple-Silicon simulators only (watchosSimulatorArm64),
+// so the Intel simulator slice is excluded to match the Gradle targets.
+EXCLUDED_ARCHS[sdk=watchsimulator*] = x86_64

@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Astro</string>
+
+    <!-- Home -->
+    <string name="home_percent">%1$d %%</string>
+    <string name="home_readiness">🔥 Readiness</string>
+    <string name="home_readiness_idle">💤 Readiness</string>
+    <string name="home_permissions_missing">Permessi mancanti</string>
+    <string name="action_grant">grant</string>
+    <string name="action_do_test">Fai il test</string>
+
+    <!-- New-values dialog -->
+    <string name="dialog_new_values">Vuoi inserire nuovi valori ?</string>
+
+    <!-- Pre-flight parameters -->
+    <string name="preflight_glucose">glicemia mg/dL</string>
+    <string name="preflight_stress">stress</string>
+    <string name="preflight_exercise">esercizio min/g</string>
+    <string name="cd_next">Avanti</string>
+    <string name="cd_confirm">Conferma</string>
+    <string name="cd_tap">Tocca</string>
+
+    <!-- Result -->
+    <string name="result_ok">Sei a posto!</string>
+    <string name="result_warning">Test incompleto</string>
+    <string name="result_at_risk">Sei a rischio</string>
+    <string name="session_save_failed">Impossibile salvare la sessione.</string>
+
+    <!-- Reminders -->
+    <string name="reminder_channel">Promemoria test</string>
+    <string name="reminder_text">È ora del test di reattività.</string>
+</resources>

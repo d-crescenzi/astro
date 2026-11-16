@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fit-for-Duty · schema dei flussi</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f2f1ee; font-family: system-ui, -apple-system, sans-serif; color: #1a1a1a; }
+  .root { padding: 40px 44px; display: flex; flex-direction: column; gap: 48px; width: max-content; font-size: 12px; line-height: 1.35; }
+
+  h1 { font: 600 26px/32px system-ui; }
+  .legend { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; font-size: 11px; color: #555; margin-top: 8px; }
+  .legend span { display: flex; gap: 6px; align-items: center; }
+  .sw { width: 18px; height: 12px; border-radius: 3px; flex: none; }
+
+  section { display: flex; flex-direction: column; gap: 14px; }
+  section > h2 { font: 600 20px/26px system-ui; }
+  .row { display: flex; gap: 20px; align-items: flex-start; }
+  .col { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+
+  .card { width: 380px; background: #fff; border: 1px solid rgba(0,0,0,.1); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .card.wide { width: 600px; }
+  .card h3 { font: 600 14px system-ui; margin-bottom: 6px; }
+
+  .pill { background: #1a1a1a; color: #fff; border-radius: 24px; padding: 10px 12px; text-align: center; }
+  .box  { border: 1.5px solid #1a1a1a; border-radius: 6px; padding: 8px 10px; }
+  .dec  { border: 1.5px solid #b26a00; background: #fff7e0; border-radius: 6px; padding: 8px 10px; }
+  .err  { border: 1.5px solid #c0392b; background: #fdeeee; color: #c0392b; border-radius: 6px; padding: 8px 10px; }
+  .ok   { border: 1.5px solid #1e7d4f; background: #eaf6ee; color: #1e7d4f; border-radius: 6px; padding: 8px 10px; }
+  .v2   { border: 1.5px dashed #999; color: #777; border-radius: 6px; padding: 8px 10px; background: transparent; }
+  .sub  { font-size: 11px; color: #666; }
+
+  .arr  { font-size: 14px; text-align: center; }
+  .arrl { font-size: 11px; font-weight: 600; }
+  .arrl.r { color: #c0392b; } .arrl.o { color: #b26a00; } .arrl.g { color: #1e7d4f; }
+
+  .groups { display: flex; flex-direction: column; gap: 4px; }
+  .grp { display: flex; gap: 8px; padding: 6px 0; border-top: 1px solid #eee; }
+  .grp:first-child { border-top: 0; }
+  .grp b { min-width: 96px; flex: none; font-weight: 600; }
+
+  table.th { border-collapse: collapse; width: 100%; font-size: 11px; margin-top: 2px; }
+  table.th th, table.th td { text-align: left; padding: 5px 8px; border-bottom: 1px solid #eee; white-space: nowrap; }
+  table.th th { font-weight: 600; color: #555; font-size: 10.5px; text-transform: uppercase; letter-spacing: .03em; }
+  table.th td:first-child { font-weight: 600; }
+  .nom { color: #1e7d4f; } .att { color: #b26a00; } .cri { color: #c0392b; }
+  .tag { font-size: 10px; color: #888; }
+  .tag.demo { color: #b26a00; }
+
+  code { font-family: ui-monospace, Menlo, monospace; font-size: 11px; background: #f2f1ee; border: 1px solid rgba(0,0,0,.08); border-radius: 4px; padding: 1px 5px; }
+  a { color: #2563eb; text-decoration: none; }
+
+  .srcbox { border: 1px dashed #bbb; border-radius: 8px; padding: 12px 14px; background: #faf9f6; }
+  .srcbox b { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="root">
+
+  <div>
+    <h1>Fit-for-Duty · schema dei flussi</h1>
+    <div class="legend">
+      <span><span class="sw" style="background:#1a1a1a;border-radius:6px"></span>Inizio / fine · schermata</span>
+      <span><span class="sw" style="border:1.5px solid #1a1a1a;background:#fff"></span>Azione / step</span>
+      <span><span class="sw" style="border:1.5px solid #1e7d4f;background:#eaf6ee"></span>Nominale</span>
+      <span><span class="sw" style="border:1.5px solid #b26a00;background:#fff7e0"></span>Attenzione / decisione</span>
+      <span><span class="sw" style="border:1.5px solid #c0392b;background:#fdeeee"></span>Critico</span>
+      <span><span class="sw" style="border:1.5px dashed #999;background:transparent"></span>v2 · fuori perimetro</span>
+    </div>
+  </div>
+
+  <!-- 1 : avvio + raccolta -->
+  <section>
+    <h2>1 · Avvio e raccolta dati</h2>
+    <div class="row">
+      <div class="card">
+        <h3>Servizio in background</h3>
+        <div class="pill">Servizio background · accessibility</div>
+        <div class="sub">ongoing, si ripresenta ogni tot</div>
+        <div class="arr">↓</div>
+        <div class="dec">Scheduler · ogni N ore, mattina e sera</div>
+        <div class="arrl">↓ scatta</div>
+        <div class="box">Ripresenta il test in foreground</div>
+        <div class="arr">↓</div>
+        <div class="pill">Pre-test · sonno + umore</div>
+        <div class="arr">↓</div>
+        <div class="box">Test PVT · tocca il cerchio, raccoglie i tap
+          <div class="sub">clock monotono · stimolo dopo il frame disegnato</div>
+        </div>
+        <div class="arr">↓ → engine</div>
+      </div>
+
+      <div class="card">
+        <h3>Dati in ingresso all'engine</h3>
+        <div class="groups">
+          <div class="grp"><b>Sensori</b><span>HR · SpO2 <span class="sub">(SpO2 = null su alcuni Apple Watch → peso ridistribuito)</span></span></div>
+          <div class="grp"><b>PVT</b><span>tempi di reazione → stato cognitivo</span></div>
+          <div class="grp"><b>Pre-test</b><span>ore di sonno · umore (1–5)</span></div>
+          <div class="grp"><b>Manuali</b><span>glicemia · stress (1–5) · radiazioni · minuti di esercizio</span></div>
+        </div>
+        <div class="sub" style="margin-top:8px">Niente firme di API qui: all'engine arrivano solo valori già normalizzati. La UI raccoglie, l'engine calcola.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 : engine -->
+  <section>
+    <h2>2 · Engine <code>shared</code> — soglie e parametri</h2>
+    <div class="row">
+
+      <div class="card wide">
+        <h3>Classifica ogni parametro → Nominale / Attenzione / Critico</h3>
+        <table class="th">
+          <tr><th>Parametro</th><th class="nom">Nominale</th><th class="att">Attenzione</th><th class="cri">Critico</th><th>Fonte</th></tr>
+          <tr><td>HR riposo (bpm)</td><td>60–100</td><td>50–59 / 101–120</td><td>&lt; 50 / &gt; 120</td><td class="tag">Nominale</td></tr>
+          <tr><td>SpO2 (%)</td><td>≥ 95</td><td>90–94</td><td>&lt; 90</td><td class="tag">Nominale</td></tr>
+          <tr><td>Esercizio (min/g)</td><td>≥ 120</td><td>60–119</td><td>&lt; 60</td><td class="tag demo">Demo</td></tr>
+          <tr><td>Glicemia (mg/dL)</td><td>70–180</td><td>54–69 / 181–250</td><td>&lt; 54 / &gt; 250</td><td class="tag">Nominale</td></tr>
+          <tr><td>Stress (1–5)</td><td>1–2</td><td>3–4</td><td>5</td><td class="tag demo">Demo</td></tr>
+          <tr><td>Radiazioni (mSv/g)</td><td>&lt; 1</td><td>1–10</td><td>&gt; 10</td><td class="tag demo">Demo</td></tr>
+          <tr><td>Sonno (h)</td><td>≥ 7</td><td>5–6,9</td><td>&lt; 5</td><td class="tag demo">Demo</td></tr>
+          <tr><td>Umore (1–5)</td><td>4–5</td><td>2–3</td><td>1</td><td class="tag demo">Demo</td></tr>
+        </table>
+        <div class="sub" style="margin-top:6px">Non ancora coperti (challenge): pressione, temperatura. Correzioni microgravità (Demo): HR riposo −5 bpm; decondizionamento se esercizio &lt; nominale per &gt; 3 giorni.</div>
+      </div>
+
+      <div class="col" style="max-width:380px">
+        <div class="card">
+          <h3>Readiness Score (0–100)</h3>
+          <div class="groups">
+            <div class="grp"><b>HR</b><span>0,30</span></div>
+            <div class="grp"><b>SpO2</b><span>0,25</span></div>
+            <div class="grp"><b>Esercizio</b><span>0,10</span></div>
+            <div class="grp"><b>Glicemia</b><span>0,15</span></div>
+            <div class="grp"><b>Stress</b><span>0,10</span></div>
+            <div class="grp"><b>Radiazioni</b><span>0,10</span></div>
+          </div>
+          <div class="sub" style="margin-top:6px">Se un dato manca, il suo peso si ridistribuisce → somma = 1.</div>
+          <div class="dec" style="margin-top:8px">⚠︎ Cognitivo/PVT: traccia separata (stato + "percepito vs misurato"). Peso nel Readiness <b>da decidere</b>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card wide">
+      <h3>Esito dell'engine</h3>
+      <div class="row">
+        <div class="col"><div class="ok">Nominale</div></div>
+        <div class="col"><div class="dec">Attenzione <span class="sub">+ apparato coinvolto</span></div></div>
+        <div class="col"><div class="err">Critico <span class="sub">+ apparato coinvolto</span></div></div>
+      </div>
+      <div class="arr">↓</div>
+      <div class="dec" style="text-align:center">Triage? &nbsp;≥ 2 parametri Critico &nbsp;oppure&nbsp; SpO2 Critico + HR &gt; 120</div>
+      <div class="row">
+        <div class="col">
+          <div class="arrl g">↓ No</div>
+          <div class="box">Readiness + consigli normali</div>
+        </div>
+        <div class="col">
+          <div class="arrl r">↓ Sì</div>
+          <div class="err">Time-to-Critical <span class="sub">proiezione lineare degli ultimi 5 min → soglia critica più vicina</span></div>
+          <div class="arr">↓</div>
+          <div class="box">Contromisure · respirazione guidata 6/min (4 s in / 6 s out), scandita dalla vibrazione
+            <div class="sub">watchOS: <code>WKHapticType</code></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="srcbox">
+      <b>Come si collegano le docs NASA/CSA</b> — non danno soglie numeriche: servono a <b>classificare il tipo di rischio</b> di ogni allerta e come <b>citazione</b>. Ogni soglia è taggata <span class="tag">Nominale</span> (clinico) o <span class="tag demo">Demo</span> (dichiarato).<br>
+      Fonti: <a href="https://www.nasa.gov/hrp/hazards/">NASA HRP · hazards</a> · <a href="https://www.nasa.gov/hrp/risks/">risks</a> · <a href="https://www.asc-csa.gc.ca/eng/news/articles/2026/2026-02-26-monitoring-radiation-astronaut-health.asp">CSA · radiazioni</a>
+    </div>
+  </section>
+
+  <!-- 3 : cache & sync -->
+  <section>
+    <h2>3 · Cache &amp; Sync (offline-first)</h2>
+    <div class="card wide">
+      <div class="box">Local store · <code>SessionRecord[]</code> <span class="sub">ogni sessione, persistente</span></div>
+      <div class="arrl r">↓ se Critico / escalation / invio fallito</div>
+      <div class="box">Outbox · <code>PendingSync[]</code></div>
+      <div class="arr">↓</div>
+      <div class="dec" style="text-align:center">Rete Wi-Fi disponibile?</div>
+      <div class="row">
+        <div class="col">
+          <div class="arrl g">↓ Sì</div>
+          <div class="box">Sync via Wi-Fi</div>
+          <div class="arr">↓</div>
+          <div class="pill">Terra · flight surgeon</div>
+          <div class="arr">↓</div>
+          <div class="v2">v2 · Backend <span class="sub">storico &amp; aggregazioni del crew</span></div>
+          <div class="arr">↓</div>
+          <div class="v2">v2 · Dashboard web <span class="sub">mostra i dati sulla UI a terra</span></div>
+        </div>
+        <div class="col">
+          <div class="arrl o">↓ No (blackout)</div>
+          <div class="dec">Resta in coda</div>
+          <div class="sub">niente va perso; inviato appena torna la rete</div>
+        </div>
+      </div>
+    </div>
+    <div class="srcbox" style="margin-top:14px">
+      <b>Stesso schema in v2</b> — il modello dati prodotto sull'orologio (<code>SessionRecord</code>) è il <b>contratto condiviso</b>: la dashboard v2 legge esattamente questo schema, senza trasformazioni. Così orologio e dashboard restano <b>in sync</b> — cambia solo dove finiscono i dati, non la loro forma.
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

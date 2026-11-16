@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fit-for-Duty · flussi UI palette</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #F5F5F7; font-family: system-ui, -apple-system, sans-serif; color: #1C1C1E; }
+  .root { padding: 44px 48px; display: flex; flex-direction: column; gap: 56px; width: max-content; }
+
+  h1 { font: 600 26px/32px system-ui; }
+  .lead { font-size: 12px; color: #6E6E73; margin-top: 8px; max-width: 680px; }
+  .lead a { color: #0062CC; text-decoration: none; }
+  .lead code { font-family: ui-monospace, Menlo, monospace; font-size: 11px; background:#fff; border:1px solid rgba(0,0,0,.1); border-radius:4px; padding:1px 5px; }
+
+  section > h2 { font: 600 16px/22px system-ui; margin-bottom: 20px; color:#3A3A3C; }
+
+  .flow { display: flex; align-items: center; gap: 4px; }
+
+  .step { display: flex; flex-direction: column; align-items: center; gap: 10px; flex: none; }
+  .cap  { font-size: 11px; font-weight: 600; color:#48484A; }
+
+  /* watch */
+  .w { width: 184px; height: 184px; border-radius: 48px; background: #000; color:#fff; padding: 20px;
+       display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; text-align:center;
+       border: 4px solid #3A3A3C; box-shadow: 0 3px 14px rgba(0,0,0,.16); position:relative; overflow:hidden; }
+  .w .top { position:absolute; top:14px; font-size:9px; letter-spacing:.07em; text-transform:uppercase; color:#8E8E93; }
+  .w .bot { position:absolute; bottom:16px; font-size:10px; color:#AEAEB2; }
+  .w .t   { font-size:14px; font-weight:600; }
+  .w .s   { font-size:10.5px; color:#AEAEB2; line-height:1.3; }
+
+  .ring { width:100px; height:100px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .ring .n { font-size:32px; font-weight:700; line-height:1; }
+  .ring .l { font-size:8.5px; letter-spacing:.08em; text-transform:uppercase; color:#AEAEB2; margin-top:3px; }
+  .g { border:6px solid #3394FF; } .y { border:6px solid #FFA060; } .r { border:6px solid #FF6A00; }
+  .dot { width:70px; height:70px; border-radius:50%; background:#0A84FF; box-shadow:0 0 20px rgba(10,132,255,.55); }
+  .btn { background:#fff; color:#1C1C1E; border-radius:20px; padding:6px 15px; font-size:11px; font-weight:600; }
+  .faces { font-size:19px; letter-spacing:2px; }
+  .faces .off { opacity:.3; }
+  .fire { font-size:10px; color:#FFA060; }
+
+  /* arrow */
+  .arr { flex:none; display:flex; flex-direction:column; align-items:center; justify-content:center; width:96px; gap:3px; }
+  .arr .a { font-size:20px; color:#AEAEB2; }
+  .arr .x { font-size:10px; font-weight:600; color:#1C1C1E; text-align:center; }
+  .arr .y2 { font-size:9.5px; color:#0062CC; text-align:center; }
+
+  .note { font-size:11px; color:#6E6E73; margin-top:16px; max-width:760px; }
+  .note b { color:#3A3A3C; font-weight:600; }
+
+  .legend { display:flex; gap:18px; font-size:11px; color:#6E6E73; margin-top:14px; }
+  .legend i { width:11px; height:11px; border-radius:50%; display:inline-block; margin-right:5px; vertical-align:-1px; }
+
+  /* schema a nodi */
+  .schema { display:flex; align-items:center; gap:12px; }
+  .node { border:1.5px solid #1C1C1E; background:#fff; border-radius:8px; padding:9px 14px; font-size:12px; font-weight:600; text-align:center; flex:none; }
+  .node.hub  { background:#1C1C1E; color:#fff; }
+  .node.trig { border-style:dashed; border-color:#D95A00; background:#FFF3EB; color:#A84600; font-weight:500; }
+  .node .sub { display:block; font-weight:400; font-size:9.5px; color:#8E8E93; margin-top:2px; }
+  .node.hub .sub { color:#AEAEB2; } .node.trig .sub { color:#D95A00; }
+  .stack { display:flex; flex-direction:column; gap:8px; }
+  .sa { color:#AEAEB2; font-size:17px; flex:none; }
+  .pin { border:none !important; font-size:9px; font-weight:700; padding:7px 11px; border-radius:7px; text-align:center; flex:none; }
+  .pin.g { background:#0062CC; color:#fff; } .pin.y { background:#FFA060; color:#1C1C1E; } .pin.r { background:#FF6A00; color:#1C1C1E; }
+  .schema-note { font-size:11px; color:#6E6E73; margin-top:16px; }
+  .tok { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:10px; max-width:980px; }
+  .tok div { background:#fff; border:1px solid #E8E8ED; border-radius:10px; padding:10px 12px; font-size:11px; color:#48484A; display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+  .tok i { width:18px; height:18px; border-radius:50%; display:inline-block; border:1px solid rgba(0,0,0,.08); }
+  .tok b { color:#1C1C1E; font-weight:600; }
+  .tok span { flex-basis:100%; color:#6E6E73; }
+  .schema-note b { color:#3A3A3C; font-weight:600; }
+</style>
+</head>
+<body>
+<div class="root">
+
+  <div>
+    <h1>Fit-for-Duty · flussi di UI · palette Blu × Arancione</h1>
+    <p class="lead">
+      Schermate e azioni utente sull'orologio. La UI raccoglie input e mostra esiti; i calcoli stanno nell'engine <code>shared</code>.
+      Flusso di engine e sync: <a href="flussi_engine.html">flussi_engine.html</a> · versione precedente: <a href="flussi_ui.html">flussi_ui.html</a>.
+    </p>
+    <div class="legend">
+      <span><i style="background:#3394FF"></i>Blu 400 · pronto</span>
+      <span><i style="background:#FFA060"></i>Arancione 300 · attenzione</span>
+      <span><i style="background:#FF6A00"></i>Arancione 500 · critico</span>
+    </div>
+  </div>
+
+
+  <section>
+    <h2>Palette usata · Blu Apple × Arancione acceso</h2>
+    <div class="tok">
+      <div><i style="background:#3394FF"></i><b>Blu 400</b> #3394FF<span>livello alto · Pronto / Nominale</span></div>
+      <div><i style="background:#FFA060"></i><b>Arancione 300</b> #FFA060<span>livello medio · Attenzione · avvisi</span></div>
+      <div><i style="background:#FF6A00"></i><b>Arancione 500</b> #FF6A00<span>livello basso · Critico · triage, escalation</span></div>
+      <div><i style="background:#0A84FF"></i><b>Blu dark</b> #0A84FF<span>stimolo PVT · respirazione · azioni</span></div>
+      <div><i style="background:#AEAEB2"></i><b>Neutri 300</b> #AEAEB2<span>testo secondario</span></div>
+      <div><i style="background:#8E8E93"></i><b>Neutri 400</b> #8E8E93<span>etichetta in alto</span></div>
+      <div><i style="background:#1C1C1E"></i><b>Neutri 800</b> #1C1C1E<span>superfici · testo su bianco/arancione</span></div>
+    </div>
+    <p class="note">Solo tonalità di blu e arancione per i dati: i semantici Success / Warning / Error della palette restano riservati agli stati di interfaccia.
+      Il livello è sempre scritto anche a parole (Lucido · Stanchezza · Lucidità ridotta). Testo bianco mai su arancione: usa #1C1C1E (6.6:1).</p>
+  </section>
+
+  <!-- schema -->
+  <section>
+    <h2>Schema</h2>
+    <div class="schema">
+      <div class="stack">
+        <div class="node trig">Avvio app</div>
+        <div class="node trig">Promemoria<span class="sub">mattina / sera</span></div>
+        <div class="node trig">Emergenza<span class="sub">test 30 s</span></div>
+      </div>
+      <div class="sa">→</div>
+      <div class="node hub">HOME<span class="sub">Readiness + streak</span></div>
+      <div class="sa">→</div>
+      <div class="node">Pre-test<span class="sub">sonno · umore</span></div>
+      <div class="sa">→</div>
+      <div class="node">Test PVT<span class="sub">tocca il cerchio</span></div>
+      <div class="sa">→</div>
+      <div class="node">Risultato<span class="sub">punteggio + consigli</span></div>
+      <div class="sa">→</div>
+      <div class="stack">
+        <div class="pin g">PRONTO</div>
+        <div class="pin y">ATTENZIONE</div>
+        <div class="pin r">CRITICO</div>
+      </div>
+    </div>
+    <p class="schema-note">
+      Dalla <b>Home</b> si raggiungono anche <b>Storico</b> e <b>Corpo</b> · da <b>Emergenza</b> parte il <b>Triage</b> ·
+      <b>Critico</b> due volte di fila → escalation al flight surgeon · in <b>v2</b> anche il <b>grafico</b> dell'andamento nel tempo.
+    </p>
+  </section>
+
+  <!-- flusso principale -->
+  <section>
+    <h2>Flusso principale</h2>
+    <div class="flow">
+      <div class="step">
+        <div class="w">
+          <div class="top">Fit-for-Duty</div>
+          <div class="ring g"><span class="n">86</span><span class="l">Readiness</span></div>
+          <div class="btn">Fai il test</div>
+          <div class="fire">🔥 7 giorni</div>
+        </div>
+        <div class="cap">Home</div>
+      </div>
+
+      <div class="arr"><div class="a">→</div><div class="x">tap</div><div class="y2">Fai il test</div></div>
+
+      <div class="step">
+        <div class="w">
+          <div class="top">Pre-test</div>
+          <div class="t">Sonno · umore</div>
+          <div class="s">5.0 h</div>
+          <div class="faces"><span class="off">😣</span><span class="off">🙁</span><span class="off">😐</span>🙂<span class="off">😄</span></div>
+        </div>
+        <div class="cap">Pre-test</div>
+      </div>
+
+      <div class="arr"><div class="a">→</div><div class="x">conferma</div></div>
+
+      <div class="step">
+        <div class="w">
+          <div class="top">Test · 0:48</div>
+          <div class="dot"></div>
+          <div class="bot">tocca appena appare</div>
+        </div>
+        <div class="cap">Test PVT</div>
+      </div>
+
+      <div class="arr"><div class="a">→</div><div class="x">fine durata</div></div>
+
+      <div class="step">
+        <div class="w">
+          <div class="top">Risultato</div>
+          <div class="ring g"><span class="n">88</span><span class="l">Cognitivo</span></div>
+          <div class="s">Sei pronto. Buon lavoro.</div>
+        </div>
+        <div class="cap">Risultato</div>
+      </div>
+    </div>
+    <p class="note">
+      Nel test: tap prima del cerchio o &lt; 100 ms → <b>anticipo</b> (non conta); &gt; 355 ms o niente entro 3 s → <b>lapse</b>.
+      Il test prosegue fino allo scadere. Da Risultato: <b>Fatto</b> → Home · <b>Rifai</b> · <b>Storico</b>.
+    </p>
+  </section>
+
+  <!-- esiti -->
+  <section>
+    <h2>Risultato · i tre esiti</h2>
+    <div class="flow" style="gap:28px">
+      <div class="step">
+        <div class="w">
+          <div class="top">Pronto · ≥ 80</div>
+          <div class="ring g"><span class="n">88</span><span class="l">Cognitivo</span></div>
+          <div class="s">Sei pronto. Buon lavoro.</div>
+        </div>
+        <div class="cap">Lucido</div>
+      </div>
+      <div class="step">
+        <div class="w">
+          <div class="top">Attenzione · 60–79</div>
+          <div class="ring y"><span class="n">71</span><span class="l">Cognitivo</span></div>
+          <div class="s">Fai una pausa di 10 minuti.</div>
+        </div>
+        <div class="cap">Stanchezza</div>
+      </div>
+      <div class="step">
+        <div class="w">
+          <div class="top">Critico · &lt; 60</div>
+          <div class="ring r"><span class="n">48</span><span class="l">Cognitivo</span></div>
+          <div class="s">Evita compiti critici. Riposa.</div>
+        </div>
+        <div class="cap">Lucidità ridotta</div>
+      </div>
+    </div>
+    <p class="note">
+      Avvisi che si aggiungono quando scattano le regole:
+      <b>«Ti senti bene, ma i riflessi dicono il contrario»</b> (umore ≥ 4 e non pronto) ·
+      <b>sonno insufficiente</b> (&lt; 6 h) ·
+      <b>«Contatta il flight surgeon»</b> (critico due volte di fila).
+    </p>
+  </section>
+
+</div>
+</body>
+</html>
